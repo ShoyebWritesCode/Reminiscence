@@ -1,0 +1,52 @@
+<!-- views/dashboard.ejs -->
+<h1>Dashboard</h1>
+<h3>Welcome <%= user.firstName %></h3>
+<p>Here are your diaries</p>
+
+<% if (diaries.length > 0) { %>
+<table class="striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% diaries.forEach(story => { %>
+    <tr>
+      <td><a href="/diaries/<%= story._id %>"><%= story.title %></a></td>
+      <td><span class="dash-status"><%= story.status %></span></td>
+      <td>
+        <a href="/diaries/edit/<%= story._id %>" class="btn btn-float">
+          <i class="fas fa-edit"></i>
+        </a>
+
+        <form
+          action="/diaries/<%= story._id %>"
+          method="POST"
+          class="delete-form"
+        >
+          <input type="hidden" name="_method" value="DELETE" />
+          <button type="submit" class="btn red">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+<p>You have not created any diaries</p>
+<% } %>
+
+<h4>
+  <a href="/diaries/add">Add Entry</a>
+</h4>
+<footer>
+  <h3>
+    <a href="/auth/logout">Logout</a>
+  </h3>
+</footer>
