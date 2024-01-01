@@ -17,10 +17,11 @@
     <% diaries.forEach(story => { %>
     <tr>
       <td><a href="/diaries/<%= story._id %>"><%= story.title %></a></td>
+      <td><span class="date"><%= story. createdAt %></span></td>
       <td><span class="dash-status"><%= story.status %></span></td>
       <td>
         <a href="/diaries/edit/<%= story._id %>" class="btn btn-float">
-          <i class="fas fa-edit"></i>
+          edit
         </a>
 
         <form
@@ -29,9 +30,7 @@
           class="delete-form"
         >
           <input type="hidden" name="_method" value="DELETE" />
-          <button type="submit" class="btn red">
-            <i class="fas fa-trash"></i>
-          </button>
+          <button type="submit" class="btn red">delete</button>
         </form>
       </td>
     </tr>

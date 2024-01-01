@@ -1,0 +1,45 @@
+<h1>Public Diaries</h1>
+<ul class="search-form">
+  <li>
+    <form id="search-site" action="/diaries/search/:query" method="get">
+      <div class="input-group">
+        <i class="fas fa-search fa-large"></i>
+        <div class="input-field">
+          <input
+            id="search"
+            type="search"
+            name="query"
+            placeholder="Search by title"
+          />
+          <label class="label-icon" for="search"></label>
+        </div>
+        <button type="submit" class="input-group-addon btn">search</button>
+      </div>
+    </form>
+  </li>
+</ul>
+<div class="row">
+  <% diaries.forEach(function(story) { %>
+  <div class="col s12 m4">
+    <div class="card">
+      <div class="card-image">edit</div>
+      <div class="card-content center-align">
+        <h5><%= story.title %></h5>
+        <p><%= story.body %></p>
+        <br />
+        <div class="chip">
+          <img src="<%= story.user.image %>" alt="" />
+          <a href="/diaries/user/<%= story.user._id %>"
+            ><%= story.user.firstName %></a
+          >
+        </div>
+      </div>
+      <div class="card-action center-align">
+        <a href="/diaries/<%= story._id %>" class="btn grey">Read More</a>
+      </div>
+    </div>
+  </div>
+  <% }); %> <% if (diaries.length === 0) { %>
+  <p>No diaries to display</p>
+  <% } %>
+</div>
