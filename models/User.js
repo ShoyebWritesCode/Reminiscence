@@ -27,6 +27,14 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
   },
+  profile_image: {
+    type: String,
+    default: '',
+  },
+  audio: {
+    type: String,
+    default: '',
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);

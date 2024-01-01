@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-//create schema Diary
 const DiarySchema = new mongoose.Schema({
   title: {
     type: String,

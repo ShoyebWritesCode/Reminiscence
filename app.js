@@ -21,6 +21,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// To store image/files
+app.use(express.static('./uploads'));
+
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 

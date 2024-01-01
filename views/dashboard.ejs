@@ -1,6 +1,11 @@
 <!-- views/dashboard.ejs -->
 <h1>Dashboard</h1>
 <h3>Welcome <%= user.firstName %></h3>
+<img src="<%= user.profile_image %>" class="circle responsive-img img-small" />
+<audio controls>
+  <source src="<%= user.audio %>" type="audio/mp3" />
+  Your browser does not support the audio element.
+</audio>
 <p>Here are your diaries</p>
 
 <% if (diaries.length > 0) { %>
