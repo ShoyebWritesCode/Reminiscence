@@ -1,41 +1,39 @@
 <h1>Public Diaries</h1>
-<ul class="search-form">
+<ul>
   <li>
     <form id="search-site" action="/diaries/search/:query" method="get">
-      <div class="input-group">
-        <i class="fas fa-search fa-large"></i>
-        <div class="input-field">
+      <div>
+        <div>
           <input
             id="search"
             type="search"
             name="query"
             placeholder="Search by title"
           />
-          <label class="label-icon" for="search"></label>
+          <label for="search"></label>
         </div>
-        <button type="submit" class="input-group-addon btn">search</button>
+        <button type="submit">search</button>
       </div>
     </form>
   </li>
 </ul>
-<div class="row">
+<div>
   <% diaries.forEach(function(story) { %>
-  <div class="col s12 m4">
-    <div class="card">
-      <div class="card-image">edit</div>
-      <div class="card-content center-align">
+  <div>
+    <div>
+      <div>
         <h5><%= story.title %></h5>
         <p><%= story.body %></p>
         <br />
-        <div class="chip">
+        <div>
           <img src="<%= story.user.image %>" alt="" />
           <a href="/diaries/user/<%= story.user._id %>"
             ><%= story.user.firstName %></a
           >
         </div>
       </div>
-      <div class="card-action center-align">
-        <a href="/diaries/<%= story._id %>" class="btn grey">Read More</a>
+      <div>
+        <a href="/diaries/<%= story._id %>">Read More</a>
       </div>
     </div>
   </div>
