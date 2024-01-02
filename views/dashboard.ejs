@@ -1,10 +1,10 @@
-<!-- views/dashboard.ejs -->
 <h1>Dashboard</h1>
 <h3>Welcome <%= user.firstName %></h3>
-<img src="<%= user.profile_image %>" class="circle responsive-img img-small" />
+<h4>Featured Photo</h4>
+<img src="<%= user.profile_image %>" style="width: 100px; height: 100px" />
+<h4>Featured Music</h4>
 <audio controls>
   <source src="<%= user.audio %>" type="audio/mp3" />
-  Your browser does not support the audio element.
 </audio>
 <p>Here are your diaries</p>
 
@@ -22,12 +22,10 @@
     <% diaries.forEach(story => { %>
     <tr>
       <td><a href="/diaries/<%= story._id %>"><%= story.title %></a></td>
-      <td><span class="date"><%= story. createdAt %></span></td>
-      <td><span class="dash-status"><%= story.status %></span></td>
+      <td><span><%= story.createdAt %></span></td>
+      <td><span><%= story.status %></span></td>
       <td>
-        <a href="/diaries/edit/<%= story._id %>" class="btn btn-float">
-          edit
-        </a>
+        <a href="/diaries/edit/<%= story._id %>">edit</a>
 
         <form
           action="/diaries/<%= story._id %>"
@@ -35,7 +33,7 @@
           class="delete-form"
         >
           <input type="hidden" name="_method" value="DELETE" />
-          <button type="submit" class="btn red">delete</button>
+          <input type="submit" value="delete" class="btn" />
         </form>
       </td>
     </tr>
@@ -46,11 +44,7 @@
 <p>You have not created any diaries</p>
 <% } %>
 
-<h4>
-  <a href="/diaries/add">Add Entry</a>
-</h4>
+<h4><a href="/diaries/add">Add Entry</a></h4>
 <footer>
-  <h3>
-    <a href="/auth/logout">Logout</a>
-  </h3>
+  <h3><a href="/auth/logout">Logout</a></h3>
 </footer>

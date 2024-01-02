@@ -2,12 +2,13 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const Diary = require('../models/Diary');
+const { ensureAuth } = require('../middleware/auth.middleware');
 
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuth, (req, res) => {
   res.render('diaries/add');
 });
 
-router.post('/', async (req, res) => {
+router.post('/', ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id;
     await Diary.create(req.body);
@@ -17,7 +18,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', ensureAuth, async (req, res) => {
   try {
     const diaries = await Diary.find({ status: 'public' })
       .populate('user')
@@ -29,7 +30,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
     const diary = await Diary.findOne({
       _id: req.params.id,
@@ -51,12 +52,11 @@ router.get('/edit/:id', async (req, res) => {
   }
 });
 
-router.post('/edit/:id', async (req, res) => {
+router.post('/edit/:id', ensureAuth, async (req, res) => {
   const { title, status, body } = req.body;
 
   try {
     const diary = await Diary.findOne({ _id: req.params.id });
-    console.log(diary._id);
     if (!diary) {
       return res.status(404).json({ message: 'Diary not found' });
     }
@@ -73,16 +73,14 @@ router.post('/edit/:id', async (req, res) => {
     // Save the updated diary entry
     await diary.save();
 
-    return res
-      .status(200)
-      .json({ message: 'Diary entry updated successfully', diary });
+    return res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', ensureAuth, async (req, res) => {
   try {
     let diary = await Diary.findById(req.params.id).populate('user').lean();
 
@@ -96,6 +94,26 @@ router.get('/:id', async (req, res) => {
       res.render('diaries/show', {
         diary,
       });
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+//delete
+router.delete('/:id', ensureAuth, async (req, res) => {
+  try {
+    const diary = await Diary.findById(req.params.id).lean();
+
+    if (!diary) {
+      return res.render('error/404');
+    }
+
+    if (diary.user != req.user.id) {
+      res.redirect('/diaries');
+    } else {
+      await Diary.deleteOne({ _id: req.params.id });
+      res.redirect('/dashboard');
     }
   } catch (err) {
     console.error(err);

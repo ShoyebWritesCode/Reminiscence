@@ -72,6 +72,32 @@ router.post(
   postProfileImage
 );
 
+router.delete('/delete/single_image', async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+
+    if (user && user.profile_image) {
+      // Delete the image file (you might need to adjust the path)
+      const imagePath = './uploads/' + user.profile_image;
+      // Add your logic to delete the file using fs.unlinkSync or any other method
+
+      // Clear the profile_image field in the user document
+      user.profile_image = null;
+      await user.save();
+
+      res.json({ message: 'Profile image deleted successfully' });
+    } else {
+      res.status(400).json({ message: 'No profile image to delete' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+module.exports = router;
+
 router.post('/upload/audio', uploadAudioFile.single('audio'), postAudioFile);
 
 module.exports = router;
